@@ -2,7 +2,7 @@
  * Created by FuBaR on 8/12/2016.
  */
 public class Neuron {
-    private int[] inputs;
+    private double[] inputs;
     private double[] weights;
 
     public Neuron(int inputSize) {
@@ -10,7 +10,7 @@ public class Neuron {
     }
 
     private void initializeNeuron(int inputSize) {
-        inputs = new int[inputSize];
+        inputs = new double[inputSize];
         initializeWeights(inputSize);
     }
 
@@ -21,7 +21,7 @@ public class Neuron {
         }
     }
 
-    public double getOutput(int[] inputs) {
+    public double getOutput(double[] inputs) {
         double net = 0;
         for (int i = 0; i < inputs.length; i++) {
             net += inputs[i] * weights[i];
