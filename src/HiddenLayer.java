@@ -4,12 +4,12 @@ import java.util.List;
 /**
  * Created by FuBaR on 8/12/2016.
  */
-public class Layer {
+public class HiddenLayer {
     List<Neuron> neurons;
     private double bias = -1;
     private double biasWeight;
 
-    public Layer(int layerSize, int inputSize) {
+    public HiddenLayer(int layerSize, int inputSize) {
         neurons = new ArrayList<>();
         biasWeight = 1;
         for (int i = 0; i < layerSize; i++) {
@@ -24,7 +24,15 @@ public class Layer {
         for (i = 0; i < neurons.size(); i++) {
             outputs[i] = neurons.get(i).getOutput(inputs);
         }
-        outputs[i + 1] = bias * biasWeight;
+        outputs[i] = bias * biasWeight;
         return outputs;
     }
+
+    public void train(double[] inputs, double outputError) {
+        for (Neuron neuron : neurons) {
+            neuron.train(inputs, outputError);
+        }
+    }
+
+
 }

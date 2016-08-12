@@ -25,9 +25,59 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        displayPatterns(allPatterns);
+        runNeuralNet();
+        //displayPatterns(allPatterns);
     }
 
+    private void normalizePatterns(){
+
+    }
+
+    NeuralNet neuralNet;
+
+    private void runNeuralNet() {
+        neuralNet = new NeuralNet(6, 1, 2);
+        for (int i = 0; i < 30; i++)
+            trainNeuralNet();
+        testNeuralNet();
+    }
+
+    private void trainNeuralNet() {
+        for (int i = 0; i < 3000; i++) {
+            Pattern pattern = allPatterns.get(i);
+            for (int j = 0; j < 24; j++) {
+                double[] data = new double[6];
+                data[0] = pattern.year;
+                data[1] = pattern.month;
+                data[2] = pattern.dayOfMonth;
+                data[3] = pattern.dayOfWeek;
+                data[4] = j;
+                data[5] = -1;
+                neuralNet.trainNeuralNetwork(data, pattern.hourlyData[j]);
+            }
+        }
+    }
+
+    private void testNeuralNet() {
+        for (int i = 3000; i < 3300; i++) {
+            Pattern pattern = allPatterns.get(i);
+            for (int j = 0; j < 24; j++) {
+                double[] data = new double[6];
+                data[0] = pattern.year;
+                data[1] = pattern.month;
+                data[2] = pattern.dayOfMonth;
+                data[3] = pattern.dayOfWeek;
+                data[4] = j;
+                data[5] = -1;
+                double output = neuralNet.getOutput(data);
+                displayPrediction(output, pattern.hourlyData[j]);
+            }
+        }
+    }
+
+    private void displayPrediction(double prediction, double target) {
+        System.out.println(target + " -> " + prediction);
+    }
 
     private void read() throws IOException {
         allPatterns = new ArrayList<>();
