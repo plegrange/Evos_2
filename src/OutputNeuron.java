@@ -12,10 +12,11 @@ public class OutputNeuron extends Neuron {
         return outputError;
     }
 
+
     private void updateWeights(double error) {
         for (int i = 0; i < weights.length; i++) {
-            weights[i] = weights[i] - learningRate * error * inputs[i];
+            weights[i] = weights[i] + delta(error, i) + momentum * previousDeltas[i];
+            previousDeltas[i] = delta(error, i);
         }
     }
-
 }

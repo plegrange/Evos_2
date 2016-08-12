@@ -1,10 +1,13 @@
+import java.util.Random;
+
 /**
  * Created by FuBaR on 8/12/2016.
  */
 public class Neuron {
     double[] inputs;
-    double[] weights;
-    double learningRate = 1;
+    double[] weights, previousDeltas;
+    double learningRate = 0.08;
+    double momentum = 0.9;
 
     public Neuron(int inputSize) {
         initializeNeuron(inputSize);
@@ -17,8 +20,13 @@ public class Neuron {
 
     private void initializeWeights(int inputSize) {
         weights = new double[inputSize];
+        Random random = new Random();
         for (int i = 0; i < inputSize; i++) {
-            weights[i] = 1;
+            weights[i] = random.nextDouble();
+        }
+        previousDeltas = new double[inputSize];
+        for (int i = 0; i < inputSize; i++) {
+            previousDeltas[i] = 0;
         }
     }
 
@@ -57,7 +65,13 @@ public class Neuron {
             error += outputError * weights[i] * derivative(inputs);
         }
         for (int i = 0; i < weights.length; i++) {
-            weights[i] = weights[i] - learningRate * outputError * inputs[i];
+            weights[i] = weights[i] + delta(error, i) + momentum * previousDeltas[i];
+            previousDeltas[i] = delta(error, i);
         }
+    }
+
+    public double delta(double error, int i) {
+        double delta = learningRate * error * inputs[i];
+        return -delta;
     }
 }

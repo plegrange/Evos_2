@@ -2,14 +2,13 @@
  * Created by FuBaR on 8/12/2016.
  */
 public class Pattern {
-    double year, month, dayOfMonth, dayOfWeek;
+    double[] pattern;
     double[] hourlyData;
 
     public Pattern(double[] data) {
-        year = data[0];
-        month = data[1];
-        dayOfMonth = data[2];
-        dayOfWeek = data[3];
+        pattern = new double[4];
+        for (int i = 0; i < 4; i++)
+            pattern[i] = data[i];
         hourlyData = new double[24];
         for (int i = 0; i < 24; i++) {
             hourlyData[i] = data[i + 4];
@@ -17,7 +16,7 @@ public class Pattern {
     }
 
     public void display() {
-        System.out.print(year + " " + month + " " + dayOfMonth + " " + dayOfWeek + " ");
+        System.out.print(pattern[0] + " " + pattern[1] + " " + pattern[2] + " " + pattern[3] + " ");
         for (int i = 0; i < 24; i++) {
             System.out.print(hourlyData[i] + " ");
         }
